@@ -2,15 +2,47 @@ import {
   View,
   Text,
   TextInput,
-  StyleSheet,
   useWindowDimensions,
   Pressable,
   KeyboardAvoidingView,
+  Alert,
 } from "react-native";
 import { colors } from "../Colors";
+import { useState } from "react";
+import { styles } from "../assets/styles";
+import PasswordComponent from "../src/components/PasswordComponent";
+
+interface Login {
+  email: string;
+  password: string;
+}
 
 const LoginScreen = () => {
   const { width } = useWindowDimensions();
+  const [login, setLogin] = useState<Login>({
+    email: "",
+    password: "",
+  });
+  const emailRegex: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const handleSubmit = () => {
+    const { email, password } = login;
+    if (!emailRegex.test(email)) {
+      Alert.alert("Error", "El correo ingresado no es válido");
+      return;
+    }
+
+    if (password.trim() === "") {
+      Alert.alert(
+        "Error",
+        "El campo de la contraseña está vacío"
+      );
+      return;
+    }
+
+    Alert.alert("Sesión iniciada", "La sesión se inició con éxito");
+    console.log({ login });
+  };
 
   return (
     <KeyboardAvoidingView behavior="padding">
@@ -24,22 +56,23 @@ const LoginScreen = () => {
               placeholder="example@example.com"
               keyboardType="email-address"
               autoCapitalize="none"
+              value={login.email}
+              onChangeText={(text) =>
+                setLogin((prev) => ({ ...prev, email: text }))
+              }
             />
           </View>
-          <View>
-            <Text style={styles.label}>Contraseña</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="**********"
-              secureTextEntry={true}
-              keyboardType="default"
-              autoCapitalize="none"
-            />
-          </View>
+          <PasswordComponent
+            password={login.password}
+            onChangeText={(value) =>
+              setLogin((prev) => ({ ...prev, password: value }))
+            }
+          />
           <Pressable
             style={({ pressed }) =>
               pressed ? { ...styles.button, opacity: 0.5 } : styles.button
             }
+            onPress={handleSubmit}
           >
             <Text style={styles.textButton}>Ingresar</Text>
           </Pressable>
@@ -58,52 +91,3 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.background,
-    padding: 10,
-    borderRadius: 10,
-  },
-  title: {
-    fontSize: 20,
-    textAlign: "center",
-    fontWeight: "bold",
-    paddingHorizontal: 10,
-    marginBottom: 20,
-    color: colors.primary,
-  },
-  form: {
-    paddingHorizontal: 20,
-    display: "flex",
-    gap: 15,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "semibold",
-    marginBottom: 10,
-    color: colors.primary,
-  },
-  input: {
-    color: colors.primary,
-    fontSize: 16,
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: colors.secondary,
-  },
-  button: {
-    backgroundColor: colors.secondary,
-    padding: 10,
-    borderRadius: 12,
-  },
-  textButton: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  subtitle: {
-    color: colors.secondary,
-    textDecorationLine: "underline",
-  },
-});
