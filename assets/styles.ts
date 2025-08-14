@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
   },
   container: {
     backgroundColor: colors.background,
@@ -59,5 +60,27 @@ export const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     bottom: 10,
+  },
+  notification: {
+    position: "absolute",
+    color: colors.tertiary,
+    fontWeight: "bold",
+    right: -4,
+    top: -8,
+  },
+  total: {
+    position: "absolute",
+    padding: 10,
+    borderRadius: 12,
+    elevation: 2,
+    backgroundColor: colors.tertiary,
+    bottom: 30,
+    right: 10
+  },
+  textTotal: {
+    color: "white",
+    fontWeight: "300",
+    fontSize: 20,
+
   },
 });

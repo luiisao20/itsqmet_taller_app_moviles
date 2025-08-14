@@ -1,24 +1,23 @@
-import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+
 import LoginScreen from "../screens/Login";
 import { User } from "../interfaces/User";
 import RegisterScreen from "../screens/Register";
 import HomeScreen from "../screens/home/Home";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { StyleSheet, Text } from "react-native";
-import { colors } from "../../Colors";
+import CartScreen from "../screens/cart/CartScreen";
 
 export type RootStackParams = {
   login: undefined;
   register: undefined;
   home: User;
+  cart: undefined;
 };
 
 const StackNavigator = () => {
   const Stack = createStackNavigator<RootStackParams>();
   return (
     <Stack.Navigator
-      initialRouteName="home"
+      initialRouteName="login"
       screenOptions={{
         cardStyle: {
           backgroundColor: "white",
@@ -32,6 +31,7 @@ const StackNavigator = () => {
       <Stack.Screen name="login" component={LoginScreen} />
       <Stack.Screen name="register" component={RegisterScreen} />
       <Stack.Screen name="home" component={HomeScreen} />
+      <Stack.Screen name="cart" component={CartScreen} />
     </Stack.Navigator>
   );
 };

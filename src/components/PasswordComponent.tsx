@@ -10,7 +10,7 @@ interface Props {
 }
 
 const PasswordComponent = ({ password, onChangeText }: Props) => {
-  const [hiddenPassword, setHiddenPassword] = useState(true);
+  const [hiddenPassword, setHiddenPassword] = useState<boolean>(true);
 
   return (
     <View>

@@ -1,50 +1,65 @@
+import { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
 import { Product } from "../../../constants/products";
 import { colors } from "../../../../Colors";
+import { ModalComponent } from "./ModalProduct";
 
 interface Props {
   product: Product;
 }
 
 const CardProduct = ({ product }: Props) => {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+
   return (
-    <View style={[localStyles.container]}>
-      <Text style={localStyles.title}>{product.name}</Text>
-      {!product.available && (
-        <Text style={localStyles.notAvailable}>NO DISPONIBLE</Text>
-      )}
-      <View style={[localStyles.row, !product.available && { opacity: 0.5 }]}>
-        <Image source={{ uri: product.pathImage }} style={localStyles.image} />
-        <View style={{ flex: 1 }}>
-          <Text style={localStyles.text}>Categoría: {product.category}</Text>
-          {product.discount !== 0 && (
-            <Text style={localStyles.text}>
-              Descuento: {product.discount * 100}%
+    <>
+      <View style={localStyles.container}>
+        <Text style={localStyles.title}>{product.name}</Text>
+        {!product.available && (
+          <Text style={localStyles.notAvailable}>NO DISPONIBLE</Text>
+        )}
+        <View style={[localStyles.row, !product.available && { opacity: 0.5 }]}>
+          <Image
+            source={{ uri: product.pathImage }}
+            style={localStyles.image}
+          />
+          <View style={{ flex: 1 }}>
+            <Text style={localStyles.text}>Categoría: {product.category}</Text>
+            {product.discount !== 0 && (
+              <Text style={localStyles.text}>
+                Descuento: {product.discount * 100}%
+              </Text>
+            )}
+            <Text
+              style={
+                product.discount === 0 ? localStyles.text : localStyles.discount
+              }
+            >
+              Precio: $ {product.price}
             </Text>
-          )}
-          <Text
-            style={
-              product.discount === 0 ? localStyles.text : localStyles.discount
-            }
-          >
-            Precio: $ {product.price}
-          </Text>
-          {product.discount !== 0 && (
-            <Text style={localStyles.discountPrice}>
-              Precio: $ {(product.discount * product.price).toFixed(2)}
-            </Text>
-          )}
-          <TouchableOpacity
-            disabled={!product.available}
-            style={localStyles.button}
-          >
-            <FontAwesome5 name="cart-plus" size={24} color="white" />
-          </TouchableOpacity>
+            {product.discount !== 0 && (
+              <Text style={localStyles.discountPrice}>
+                Precio: $ {((1 - product.discount) * product.price).toFixed(2)}
+              </Text>
+            )}
+            <TouchableOpacity
+              disabled={!product.available}
+              style={localStyles.button}
+              onPress={() => setModalVisible(true)}
+            >
+              <FontAwesome5 name="cart-plus" size={24} color="white" />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+      <ModalComponent
+        product={product}
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
+    </>
   );
 };
 
