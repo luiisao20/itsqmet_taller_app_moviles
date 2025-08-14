@@ -1,15 +1,9 @@
-interface Colors {
-  background: string;
-  primary: string;
-  secondary: string;
-  modal: string;
-  tertiary: string;
-}
-
-export const colors: Colors = {
-  background: '#FCFAFA',
-  primary: '#4A5759',
-  secondary: '#6D9DC5',
-  modal: '#CE796B',
-  tertiary: '#06D6A0'
+export const colors = {
+  background: "#FCFAFA",
+  primary: "#EDF0EB",
+  secondary: "#6D9DC5",
+  button: '#18204A',
+  modal: "#CE796B",
+  tertiary: "#06D6A0",
+  text: "#18204A",
 };
